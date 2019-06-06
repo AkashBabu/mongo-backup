@@ -66,9 +66,9 @@ services:
 ```
 
 ## Restore
-Get `dump_2019-06-06_16:24:40.tar` file from S3 and then run the following commands:  
-> tar xvf dump_2019-06-06_16:24:40.tar  
-> mongorestore dump_2019-06-06_16:24:40/
+Get `dump_2019-06-06_12-49-22.tar` file from S3 and then run the following commands:  
+> tar xvf dump_2019-06-06_12-49-22.tar  
+> mongorestore dump_2019-06-06_12-49-22/
 
 ## Contributions
 All PRs are welcome
