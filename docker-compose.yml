@@ -1,0 +1,32 @@
+version: '3.7'
+
+
+services:
+  mongo:
+    image: mongo
+
+  cron:
+    image: crazymax/swarm-cronjob
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - "TZ=Asia/Kolkata"
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+          
+  mongo_backup:
+    build:
+      context: .
+    deploy:
+      labels:
+        - "swarm.cronjob.enable=true"
+        - "swarm.cronjob.schedule=0 * * * * *"
+        - "swarm.cronjob.skip-running=false"
+      replicas: 0
+      restart_policy:
+        condition: none
+    environment: 
+      - "RETRY_INTERVAL=5"
+      - "HOST=mongo:27017"
+      - "TEST=true"
+    

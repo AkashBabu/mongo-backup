@@ -16,7 +16,7 @@ fi
 
 echo "Backing up $HOST to s3://$BUCKET/ on $(date)";
 
-DEST=dump
+DEST=dump_$(date +"%Y-%m-%d_%H:%M:%S")
 TAR=$DEST.tar
 
 RESULT=1
@@ -31,12 +31,19 @@ do
     fi
 
     RETRIES=`expr $RETRIES + 1`
-    mongodump --host $HOST --gzip -o $DEST $OTHER_OPTIONS
+    mongodump --host $HOST -o $DEST $OTHER_OPTIONS
     RESULT=$?
     sleep $RETRY_INTERVAL;
 done
 
 if [ $? == 0 ]; then
+    if [[ ! -z "${TEST}" ]]; then
+        echo "--------------------------"
+        echo "TEST_MODE: Success"
+        echo "--------------------------"
+        exit 0
+    fi
+
     # compress the dumped folder
     /bin/tar cvf $TAR $DEST/
 
