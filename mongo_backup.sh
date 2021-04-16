@@ -48,7 +48,7 @@ if [ $? == 0 ]; then
     /bin/tar cvf "$TAR" "$DEST/"
 
     # Push the dump to S3
-    /usr/bin/aws s3 cp "$TAR" "s3://$BUCKET/"
+    /usr/bin/aws s3 cp "$TAR" "s3://$BUCKET/$TAR"
 
     if [ $? == 0 ]; then
         echo "--------------------------"
